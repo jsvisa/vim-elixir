@@ -15,10 +15,15 @@ syn cluster elixirNotTop contains=@elixirRegexSpecial,@elixirStringContained,@el
 syn match elixirComment '#.*' contains=elixirTodo
 syn keyword elixirTodo FIXME NOTE TODO OPTIMIZE XXX HACK contained
 
-syn keyword elixirKeyword is_atom is_binary is_bitstring is_boolean is_float is_function is_integer is_list is_number is_pid is_port is_record is_reference is_tuple is_exception
-syn keyword elixirKeyword case cond bc lc inlist inbits if unless try receive
-syn keyword elixirKeyword exit raise throw after rescue catch else do end
-syn keyword elixirKeyword quote unquote super
+" syn match elixirTest /\%([^:0-9a-zA-Z_]\|^\)\@<=\%(length2\|abcc\)\%((\| \+(\| \+\%(\w\|\"\|\'\|\[\|{\)\|\/[0-9])\)\@=/
+" hi link elixirTest    Keyword
+
+syn match elixirBIFs /\%([^:0-9a-zA-Z_]\|^\)\@<=\%(abs\|apply\|atom_to_binary\|atom_to_list\|binary_part\|binary_to_atom\|binary_to_existing_atom\|binary_to_float\|binary_to_integer\|bit_size\|bitstring_to_list\|byte_size\|div\|elem\|exit\|float_to_binary\|float_to_list\|function_exported?\|\|hd\|inspect\|integer_to_binary\|integer_to_list\|iolist_size\|iolist_to_binary\|is_atom\|is_binary\|is_bitstring\|is_boolean\|is_float\|is_function\|is_integer\|is_list\|is_number\|is_pid\|is_port\|is_reference\|is_tuple\|length\|list_to_atom\|list_to_bitstring\|list_to_existing_atom\|list_to_float\|list_to_integer\|list_to_tuple\|macro_exported?\|\|make_ref\|max\|min\|module_info\|node\|rem\|round\|self\|send\|set_elem\|size\|spawn\|spawn_link\|throw\|tl\|trunc\|tuple_size\|tuple_to_list\)\%((\| \+(\| \+\%(\w\|\"\|\'\|\[\|{\)\|\/[0-9])\)\@=/
+
+syn match elixirBIFs /\%([^:0-9a-zA-Z_]\|^\)\@<=\%(access\|alias!\|binding\|is_exception\|is_range\|is_record\|is_regex\|match?\|nil?\|to_string\|var!\|case\|cond\|bc\|lc\|inlist\|inbits\|if\|unless\|try\|receive\|quote\|unquote\|super\|exit\|raise\|throw\|after\|rescue\|catch\|else\)\%((\| \+(\| \+\%(\w\|\"\|\'\|\[\|{\)\|\/[0-9])\)\@=/
+
+syn match elixirBIFs /\%([^:0-9a-zA-Z_]\|^\)\@<=\%(make_ref\|node\|\|module_info\|self\|\)\%((\| \+(\|,\| \+,\| \+\)\@=/
+syn keyword elixirKeyword do else after catch end
 syn match   elixirKeyword '\<\%(->\)\>\s*'
 
 syn keyword elixirInclude import require alias use
@@ -145,6 +150,7 @@ hi def link elixirInclude                Include
 hi def link elixirComment                Comment
 hi def link elixirTodo                   Todo
 hi def link elixirKeyword                Keyword
+hi def link elixirBIFs                   Keyword
 hi def link elixirOperator               Operator
 hi def link elixirSymbol                 Constant
 hi def link elixirPseudoVariable         Constant
