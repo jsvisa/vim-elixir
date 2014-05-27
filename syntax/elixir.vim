@@ -14,7 +14,6 @@ syn cluster elixirNotTop contains=@elixirRegexSpecial,@elixirStringContained,@el
 
 syn match elixirComment '#.*' contains=elixirTodo
 syn keyword elixirTodo FIXME NOTE TODO OPTIMIZE XXX HACK contained
-
 syn keyword elixirKeyword abs apply atom_to_binary atom_to_list binary_part binary_to_atom binary_to_existing_atom binary_to_float binary_to_integer bit_size bitstring_to_list byte_size div elem exit float_to_binary float_to_list function_exported?  hd inspect integer_to_binary integer_to_list iolist_size iolist_to_binary is_atom is_binary is_bitstring is_boolean is_float is_function is_integer is_list is_number is_pid is_port is_reference is_tuple length list_to_atom list_to_bitstring list_to_existing_atom list_to_float list_to_integer list_to_tuple macro_exported?  make_ref max min module_info node rem round self send set_elem size spawn spawn_link throw tl trunc tuple_size tuple_to_list
 
 syn keyword elixirKeyword access alias! binding is_exception is_range is_record is_regex match? nil? to_string var! case cond bc lc for inlist inbits if unless try receive quote unquote unquote_splicing super exit raise throw after rescue catch else for
@@ -79,27 +78,25 @@ syn region elixirAnonymousFunction  matchgroup=elixirKeyword start="\<fn\>"     
 
 syn region elixirArguments start="(" end=")" contained contains=elixirOperator,elixirSymbol,elixirPseudoVariable,elixirName,elixirBoolean,elixirVariable,elixirUnusedVariable,elixirNumber,elixirDocString,elixirSymbolInterpolated,elixirRegex,elixirString,elixirDelimiter
 
-syn match elixirDelimEscape "\\[(<{\[)>}\]]" transparent display contained contains=NONE
+syn match elixirDelimEscape "\\[(<{\[)>}\]/\"'|]" transparent display contained contains=NONE
 
-syn region elixirSigil matchgroup=elixirDelimiter start="[~]\z([~`!@#$%^&*_\-+|\:;"',.?/]\)"        end="\z1" skip="\\\\\|\\\z1" fold
-syn region elixirSigil matchgroup=elixirDelimiter start="[~][SCRW]\z([~`!@#$%^&*_\-+=|\:;"',.?/]\)" end="\z1" skip="\\\\\|\\\z1" fold
-syn region elixirSigil matchgroup=elixirDelimiter start="[~][SCRW]\={"                              end="}"   skip="\\\\\|\\}"   contains=elixirDelimEscape fold
-syn region elixirSigil matchgroup=elixirDelimiter start="[~][SCRW]\=<"                              end=">"   skip="\\\\\|\\>"   contains=elixirDelimEscape fold
-syn region elixirSigil matchgroup=elixirDelimiter start="[~][SCRW]\=\["                             end="\]"  skip="\\\\\|\\\]"  contains=elixirDelimEscape fold
-syn region elixirSigil matchgroup=elixirDelimiter start="[~][SCRW]\=("                              end=")"   skip="\\\\\|\\)"   contains=elixirDelimEscape fold
+syn region elixirSigil matchgroup=elixirDelimiter start="\~\u\z(/\|\"\|'\||\)" end="\z1" skip="\\\\\|\\\z1" contains=elixirDelimEscape fold
+syn region elixirSigil matchgroup=elixirDelimiter start="\~\u{"                end="}"   skip="\\\\\|\\}"   contains=elixirDelimEscape fold
+syn region elixirSigil matchgroup=elixirDelimiter start="\~\u<"                end=">"   skip="\\\\\|\\>"   contains=elixirDelimEscape fold
+syn region elixirSigil matchgroup=elixirDelimiter start="\~\u\["               end="\]"  skip="\\\\\|\\\]"  contains=elixirDelimEscape fold
+syn region elixirSigil matchgroup=elixirDelimiter start="\~\u("                end=")"   skip="\\\\\|\\)"   contains=elixirDelimEscape fold
 
-syn region elixirSigil matchgroup=elixirDelimiter start="[~][scrw]\z([~`!@#$%^&*_\-+=|\:;"',.?/]\)" end="\z1" skip="\\\\\|\\\z1" fold
-syn region elixirSigil matchgroup=elixirDelimiter start="[~][scrw]{"                                end="}"   skip="\\\\\|\\}"   fold contains=@elixirStringContained,elixirRegexEscapePunctuation
-syn region elixirSigil matchgroup=elixirDelimiter start="[~][scrw]<"                                end=">"   skip="\\\\\|\\>"   fold contains=@elixirStringContained,elixirRegexEscapePunctuation
-syn region elixirSigil matchgroup=elixirDelimiter start="[~][scrw]\["                               end="\]"  skip="\\\\\|\\\]"  fold contains=@elixirStringContained,elixirRegexEscapePunctuation
-syn region elixirSigil matchgroup=elixirDelimiter start="[~][scrw]("                                end=")"   skip="\\\\\|\\)"   fold contains=@elixirStringContained,elixirRegexEscapePunctuation
+syn region elixirSigil matchgroup=elixirDelimiter start="\~\u\z(/\|\"\|'\||\)" end="\z1" skip="\\\\\|\\\z1" fold
+syn region elixirSigil matchgroup=elixirDelimiter start="\~\l{"                end="}"   skip="\\\\\|\\}"   fold contains=@elixirStringContained,elixirRegexEscapePunctuation
+syn region elixirSigil matchgroup=elixirDelimiter start="\~\l<"                end=">"   skip="\\\\\|\\>"   fold contains=@elixirStringContained,elixirRegexEscapePunctuation
+syn region elixirSigil matchgroup=elixirDelimiter start="\~\l\["               end="\]"  skip="\\\\\|\\\]"  fold contains=@elixirStringContained,elixirRegexEscapePunctuation
+syn region elixirSigil matchgroup=elixirDelimiter start="\~\l("                end=")"   skip="\\\\\|\\)"   fold contains=@elixirStringContained,elixirRegexEscapePunctuation
 
 " Sigils surrounded with docString
-syn region elixirSigil matchgroup=elixirDelimiter start=+[~][SCRWscrw]\z("""\)+ end=+^\s*\zs\z1+ skip=+\\"+ fold
-syn region elixirSigil matchgroup=elixirDelimiter start=+[~][SCRWscrw]\z('''\)+ end=+^\s*\zs\z1+ skip=+\\'+ fold
+syn region elixirSigil matchgroup=elixirDelimiter start=+\~\a\z("""\)+ end=+^\s*\zs\z1+ skip=+\\"+ fold
+syn region elixirSigil matchgroup=elixirDelimiter start=+\~\a\z('''\)+ end=+^\s*\zs\z1+ skip=+\\'+ fold
 
 " Defines
-syn keyword elixirDefine              def            nextgroup=elixirFunctionDeclaration    skipwhite skipnl
 syn keyword elixirDefine              def            nextgroup=elixirFunctionDeclaration    skipwhite skipnl
 syn keyword elixirPrivateDefine       defp           nextgroup=elixirFunctionDeclaration    skipwhite skipnl
 syn keyword elixirModuleDefine        defmodule      nextgroup=elixirModuleDeclaration      skipwhite skipnl
@@ -113,6 +110,7 @@ syn keyword elixirDelegateDefine      defdelegate    nextgroup=elixirDelegateDec
 syn keyword elixirOverridableDefine   defoverridable nextgroup=elixirOverridableDeclaration skipwhite skipnl
 syn keyword elixirExceptionDefine     defexception   nextgroup=elixirExceptionDeclaration   skipwhite skipnl
 syn keyword elixirCallbackDefine      defcallback    nextgroup=elixirCallbackDeclaration    skipwhite skipnl
+syn keyword elixirStructDefine        defstruct      nextgroup=elixirStructDeclaration      skipwhite skipnl
 
 " Declarations
 syn match  elixirModuleDeclaration      "[^[:space:];#<]\+"        contained contains=elixirName nextgroup=elixirBlock     skipwhite skipnl
@@ -126,8 +124,9 @@ syn region elixirDelegateDeclaration    start='\['     end='\]'    contained con
 syn match  elixirOverridableDeclaration "[^[:space:];#<]\+"        contained contains=elixirName                           skipwhite skipnl
 syn match  elixirExceptionDeclaration   "[^[:space:];#<]\+"        contained contains=elixirName                           skipwhite skipnl
 syn match  elixirCallbackDeclaration    "[^[:space:];#<,()\[\]]\+" contained contains=elixirFunctionDeclaration            skipwhite skipnl
+syn match  elixirStructDeclaration      "[^[:space:];#<]\+"        contained                     nextgroup=elixirArguments skipwhite skipnl
 
-syn cluster elixirDeclaration contains=elixirFunctionDeclaration,elixirModuleDeclaration,elixirProtocolDeclaration,elixirImplDeclaration,elixirRecordDeclaration,elixirMacroDeclaration,elixirDelegateDeclaration,elixirOverridableDeclaration,elixirExceptionDeclaration,elixirCallbackDeclaration
+syn cluster elixirDeclaration contains=elixirFunctionDeclaration,elixirModuleDeclaration,elixirProtocolDeclaration,elixirImplDeclaration,elixirRecordDeclaration,elixirMacroDeclaration,elixirDelegateDeclaration,elixirOverridableDeclaration,elixirExceptionDeclaration,elixirCallbackDeclaration,elixirStructDeclaration
 
 hi def link elixirDefine                 Define
 hi def link elixirPrivateDefine          Define
@@ -142,6 +141,7 @@ hi def link elixirDelegateDefine         Define
 hi def link elixirOverridableDefine      Define
 hi def link elixirExceptionDefine        Define
 hi def link elixirCallbackDefine         Define
+hi def link elixirStructDefine           Define
 hi def link elixirFunctionDeclaration    Function
 hi def link elixirMacroDeclaration       Macro
 hi def link elixirInclude                Include
